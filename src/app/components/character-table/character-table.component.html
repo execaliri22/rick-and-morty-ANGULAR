@@ -1,0 +1,44 @@
+
+<body>
+  
+
+<main>
+  <h1>Rick and Morty</h1>
+  <hr />
+
+  <input
+    #searchInput
+    class="finder-character"
+    type="text"
+    placeholder="Search for a character"
+    (input)="getCharacterByName(searchInput.value)"
+  />
+
+  <table id="character-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th (click)="sortTable('name')">Name</th>
+        <th (click)="sortTable('gender')">Gender</th>
+        <th (click)="sortTable('status')">Status</th>
+        <th>Species</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let character of characters" (click)="loadLocation(character)">
+        <td><img [src]="character?.image" [alt]="character?.name" width="50" /></td>
+        <td>{{ character?.name }}</td>
+        <td>{{ character?.gender }}</td>
+        <td>{{ character?.status }}</td>
+        <td>{{ character?.species }}</td>
+        <td>{{ character?.locationName || '' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  <p>&#64;caliri-oviedo dev</p>
+</footer>
+</body>
