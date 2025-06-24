@@ -1,6 +1,15 @@
-
 <body>
-  
+
+  <div class="user-profiles">
+  <div class="profile">
+    <img src="exe.jpg" alt="Exequiel Caliri" />
+    <span>Exequiel Caliri</span>
+  </div>
+  <div class="profile">
+    <img src="fer.jpg" alt="Fernanda Oviedo" />
+    <span>Fernanda Oviedo</span>
+  </div>
+</div>
 
 <main>
   <h1>Rick and Morty</h1>
@@ -10,7 +19,7 @@
     #searchInput
     class="finder-character"
     type="text"
-    placeholder="Search for a character"
+    placeholder="Busca tu personaje favorito"
     (input)="getCharacterByName(searchInput.value)"
   />
 
@@ -27,7 +36,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let character of characters" (click)="loadLocation(character)">
-        <td><img [src]="character?.image" [alt]="character?.name" width="50" /></td>
+        <td><img [src]="character?.image" [alt]="character?.name" width="80" /></td>
         <td>{{ character?.name }}</td>
         <td>{{ character?.gender }}</td>
         <td>{{ character?.status }}</td>
@@ -41,4 +50,5 @@
 <footer>
   <p>&#64;caliri-oviedo dev</p>
 </footer>
+
 </body>
