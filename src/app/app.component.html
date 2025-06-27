@@ -1,3 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+   
+    
+    <div class="navbar-nav ms-auto">
+      <ng-container *ngIf="authService.currentUserValue; else notLoggedIn">
+        <a class="nav-link" routerLink="/profile">Perfil</a>
+        <a class="nav-link" (click)="authService.logout()" style="cursor: pointer;">
+          Cerrar sesión
+        </a>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+        <a class="nav-link" routerLink="/register">Registrarse</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>
+
 <div class="container">
-  <app-character-table></app-character-table>
+  <router-outlet></router-outlet>
 </div>

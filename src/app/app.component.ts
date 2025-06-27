@@ -1,12 +1,21 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { CharacterTableComponent } from './components/character-table/character-table.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CharacterTableComponent],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.css']  // Asegúrate que exista este archivo o cámbialo por './app.component.css'
+  styleUrls: ['./app.css']
 })
 export class AppComponent {
-  title = 'Rick and Morty App';
+  
+  
+  constructor(
+    public authService: AuthService,
+    public router: Router
+  ) {}
 }
