@@ -12,6 +12,9 @@ import { CharacterTableComponent } from './components/character-table/character-
   styleUrls: ['./app.css']
 })
 export class AppComponent {
+logout() {
+throw new Error('Method not implemented.');
+}
   
   
   constructor(

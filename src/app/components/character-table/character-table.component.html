@@ -1,45 +1,89 @@
-<body>
-
- 
-
-<main>
-  <h1>Rick and Morty</h1>
-  <hr />
-
+<div class="search-container">
   <input
-    #searchInput
-    class="finder-character"
     type="text"
-    placeholder="Busca tu personaje favorito"
-    (input)="getCharacterByName(searchInput.value)"
-  />
+    placeholder="Buscar personaje..."
+    [(ngModel)]="searchTerm"
+    (keyup.enter)="searchCharacters(searchTerm)"
+    #searchInput
+  >
+  <button (click)="searchCharacters(searchTerm)">
+    <i class="fas fa-search"></i> Buscar
+  </button>
+</div>
 
-  <table id="character-table">
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner"></div>
+  <p>Cargando personajes...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+  <button (click)="loadCharacters()">Reintentar</button>
+</div>
+
+<div *ngIf="!isLoading && filteredCharacters && filteredCharacters.length > 0">
+  <table class="character-table">
     <thead>
       <tr>
-        <th>Image</th>
-        <th (click)="sortTable('name')">Name</th>
-        <th (click)="sortTable('gender')">Gender</th>
-        <th (click)="sortTable('status')">Status</th>
-        <th>Species</th>
-        <th>Location</th>
+        <th>Imagen</th>
+        <th (click)="sortTable('name')">Nombre</th>
+        <th (click)="sortTable('status')">Estado</th>
+        <th (click)="sortTable('species')">Especie</th>
+        <th>Ubicación</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let character of characters" (click)="loadLocation(character)">
-        <td><img [src]="character?.image" [alt]="character?.name" width="80" /></td>
-        <td>{{ character?.name }}</td>
-        <td>{{ character?.gender }}</td>
-        <td>{{ character?.status }}</td>
-        <td>{{ character?.species }}</td>
-        <td>{{ character?.locationName || '' }}</td>
+      <tr *ngFor="let character of filteredCharacters">
+        <td>
+          <img 
+            [src]="character.image" 
+            [alt]="character.name"
+            (load)="handleImageLoad(character)"
+            (error)="handleImageError($event, character)"
+            [class.loaded]="character.imageLoaded"
+            class="character-image"
+          >
+        </td>
+        <td>{{ character.name }}</td>
+        <td>{{ character.status }}</td>
+        <td>{{ character.species }}</td>
+        <td (mouseenter)="loadLocation(character)">
+          {{ character.locationName }}
+        </td>
+        <td class="actions">
+          <button 
+            (click)="toggleFavorite(character)"
+            [class.favorite]="character.isFavorite"
+            class="favorite-btn"
+            title="{{ character.isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos' }}"
+          >
+            {{ character.isFavorite ? '❤️' : '♡' }}
+          </button>
+          
+          <div *ngIf="character.isFavorite" class="notes-section">
+            <div *ngIf="showNotesInputId !== character.id" class="notes-container">
+              <p *ngIf="character.notes">{{ character.notes }}</p>
+              <button (click)="startEditingNotes(character)" class="btn-small">
+                {{ character.notes ? '✏️ Editar' : '➕ Añadir' }} notas
+              </button>
+            </div>
+            
+            <div *ngIf="showNotesInputId === character.id" class="notes-input">
+              <textarea [(ngModel)]="notesText" placeholder="Tus notas sobre este personaje..."></textarea>
+              <div class="notes-actions">
+                <button (click)="saveNotes(character)">💾 Guardar</button>
+                <button (click)="cancelEditing()">✖ Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
-</main>
+</div>
 
-<footer>
-  <p>&#64;caliri-oviedo dev</p>
-</footer>
-
-</body>
+<div *ngIf="!isLoading && filteredCharacters && filteredCharacters.length === 0 && !errorMessage" class="no-results">
+  <h3>¡No se encontraron personajes!</h3>
+  <p>Prueba con otro nombre de búsqueda</p>
+</div>

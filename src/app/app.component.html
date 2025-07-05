@@ -1,22 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container">
-   
+    <a class="navbar-brand" routerLink="/">
+      <i class="fas fa-portal me-2"></i> Rick & Morty App
+    </a>
     
-    <div class="navbar-nav ms-auto">
-      <ng-container *ngIf="authService.currentUserValue; else notLoggedIn">
-        <a class="nav-link" routerLink="/profile">Perfil</a>
-        <a class="nav-link" (click)="authService.logout()" style="cursor: pointer;">
-          Cerrar sesión
-        </a>
-      </ng-container>
-      <ng-template #notLoggedIn>
-        <a class="nav-link" routerLink="/login">Iniciar sesión</a>
-        <a class="nav-link" routerLink="/register">Registrarse</a>
-      </ng-template>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">Personajes</a>
+        
+        <ng-container *ngIf="authService.currentUserValue; else notLoggedIn">
+          <a class="nav-link" routerLink="/favorites" routerLinkActive="active">Favoritos</a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Perfil</a>
+          <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+            
+          </a>
+        </ng-container>
+        
+        <ng-template #notLoggedIn>
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">
+            <i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión
+          </a>
+          <a class="nav-link" routerLink="/register" routerLinkActive="active">
+            <i class="fas fa-user-plus me-1"></i> Registrarse
+          </a>
+        </ng-template>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="container">
+<div class="container mt-4">
   <router-outlet></router-outlet>
 </div>

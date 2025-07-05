@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { AuthGuard } from './auth/auth-guard';
+import { FavoritesListComponent } from './components/favorites-list/favorites-list.component';
 
 export const routes: Routes = [
   { 
@@ -18,5 +19,6 @@ export const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuard] 
   },
+  { path: 'favorites', component: FavoritesListComponent },
   { path: '**', redirectTo: '' }
 ];
