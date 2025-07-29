@@ -9,7 +9,7 @@ import { CharacterTableComponent } from './components/character-table/character-
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
 })
 export class AppComponent {
 logout() {

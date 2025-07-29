@@ -1,0 +1,155 @@
+/* =================== FUENTES Y VARIABLES =================== */
+@import url('https://fonts.cdnfonts.com/css/get-schwifty');
+
+:root {
+  --portal-blue: #00c0ff;
+  --portal-green: #42b983;
+  --portal-purple: #9b59b6;
+  --dark-space: #0f172a;
+  --neon-pink: #ff00aa;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --radius-sm: 8px;
+  --radius-md: 15px;
+  --radius-lg: 50px;
+}
+
+/* =================== RESET =================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--dark-space);
+  color: white;
+  background-image: radial-gradient(circle at 20% 30%, rgba(0, 192, 255, 0.1) 0%, transparent 25%),
+                    url('https://rickandmortyapi.com/api/character/avatar/1.jpeg');
+  background-attachment: fixed;
+  background-size: cover;
+  padding: var(--space-md);
+}
+
+/* =================== TIPOGRAFÍA =================== */
+h1, h2, h3 {
+  font-family: 'Get Schwifty', cursive;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 192, 255, 0.7);
+  margin-bottom: var(--space-md);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--portal-green);
+  -webkit-text-stroke: 1px var(--portal-blue);
+  text-align: center;
+  animation: glow 2s infinite alternate;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: var(--portal-blue);
+  border-bottom: 3px dashed var(--portal-green);
+  display: inline-block;
+  padding-bottom: var(--space-xs);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
+  color: var(--portal-purple);
+}
+
+/* =================== CONTAINER =================== */
+.container {
+  max-width: 1200px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  background-color: rgba(15, 23, 42, 0.85);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 30px rgba(0, 192, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 192, 255, 0.3);
+}
+
+/* =================== NAVBAR =================== */
+.navbar {
+  background-color: rgba(9, 9, 121, 0.8);
+  border-bottom: 2px solid var(--portal-blue);
+  padding: var(--space-md) 0;
+  margin-bottom: var(--space-xl);
+}
+
+.navbar-brand {
+  font-family: 'Get Schwifty', cursive;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--portal-green);
+  -webkit-text-stroke: 1px var(--portal-blue);
+  text-shadow: 0 0 15px rgba(66, 185, 131, 0.7);
+  padding: 0 var(--space-md);
+}
+
+.nav-link {
+  color: #b5e8ff;
+  font-weight: 500;
+  margin: 0 var(--space-md);
+  padding: var(--space-xs) 0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--neon-pink);
+  transform: translateY(-3px);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--portal-blue);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* =================== UTILIDADES =================== */
+.mt-4 { margin-top: var(--space-lg); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.text-center { text-align: center; }
+
+/* =================== ANIMACIONES =================== */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgba(0, 192, 255, 0.7), 
+                 0 0 20px rgba(66, 185, 131, 0.5);
+  }
+  to {
+    text-shadow: 0 0 15px rgba(0, 192, 255, 0.9), 
+                 0 0 30px rgba(66, 185, 131, 0.7),
+                 0 0 40px rgba(155, 89, 182, 0.5);
+  }
+}
+
+/* =================== RESPONSIVE =================== */
+@media (max-width: 768px) {
+  body {
+    padding: var(--space-sm);
+  }
+  .container {
+    padding: var(--space-md);
+    margin: var(--space-md) auto;
+  }
+  .navbar {
+    padding: var(--space-sm) 0;
+  }
+}
