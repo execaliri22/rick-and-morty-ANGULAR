@@ -1,201 +1,130 @@
-/* ============== CONTENEDOR PRINCIPAL ============== */
+/* CONTENEDOR PRINCIPAL */
 .full-height {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  background-color: rgba(5, 10, 20, 0.95);
+  background-color: #0b0f1a;
   background-image: 
-    linear-gradient(rgba(5, 10, 20, 0.95), rgba(5, 10, 20, 0.95)),
-    radial-gradient(circle at 20% 30%, rgba(0, 192, 255, 0.15) 0%, transparent 30%),
-    radial-gradient(circle at 80% 70%, rgba(155, 89, 182, 0.15) 0%, transparent 30%),
-    url('https://rickandmortyapi.com/api/character/avatar/1.jpeg');
-  background-attachment: fixed;
+    radial-gradient(circle at 20% 30%, rgba(0, 192, 255, 0.15), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(155, 89, 182, 0.15), transparent 30%);
   background-size: cover;
-  background-blend-mode: overlay;
 }
 
-/* ============== TARJETA PRINCIPAL ============== */
+/* TARJETA PRINCIPAL */
 .card {
+  max-width: 500px;
   width: 100%;
-  max-width: 1000px;
-  background-color: rgba(15, 23, 42, 0.85);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 40px rgba(0, 192, 255, 0.3);
-  border: 1px solid rgba(0, 192, 255, 0.4);
+  background: rgba(23, 33, 54, 0.95);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 25px rgba(0, 192, 255, 0.3);
+  border: 1px solid rgba(0, 192, 255, 0.2);
   animation: fadeIn 0.6s ease-in;
-  padding: 3rem 4rem;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 50px rgba(0, 192, 255, 0.4);
-}
-
-/* ============== CABECERA ============== */
+/* CABECERA */
 .card-header {
-  background: linear-gradient(135deg, 
-    rgba(155, 89, 182, 0.25) 0%, 
-    rgba(0, 192, 255, 0.25) 100%);
-  padding: 1.5rem;
   text-align: center;
-  border-bottom: 1px solid rgba(0, 192, 255, 0.4);
-  margin: -3rem -4rem 2rem -4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0) 60%
-  );
-  transform: rotate(30deg);
-  transition: all 0.8s ease;
-  pointer-events: none;
-}
-
-.card-header:hover::before {
-  left: 100%;
+  margin-bottom: 2rem;
 }
 
 .card-header h3 {
   font-family: 'Get Schwifty', cursive;
-  color: var(--portal-purple);
-  text-shadow: 0 0 12px rgba(155, 89, 182, 0.7);
-  margin: 0;
-  font-size: 2.2rem;
-  letter-spacing: 2px;
-  animation: glow 2s infinite alternate;
-  position: relative;
-  z-index: 1;
+  font-size: 2rem;
+  color: #00c0ff;
+  text-shadow: 0 0 10px #9b59b6;
 }
 
-/* ============== FORMULARIO ============== */
-.form-group {
-  margin-bottom: 2rem;
-}
-
+/* FORMULARIO */
 .form-label {
   color: #c2e9ff;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   display: block;
-  font-size: 1.05rem;
-  letter-spacing: 0.5px;
 }
 
 .form-control {
   width: 100%;
-  padding: 1rem 1.25rem;
-  background-color: rgba(5, 15, 30, 0.8);
-  border: 1px solid rgba(0, 192, 255, 0.5);
+  padding: 0.8rem 1rem;
+  background-color: #111d33;
+  border: 1px solid rgba(0, 192, 255, 0.4);
   color: white;
-  border-radius: var(--radius-sm);
-  transition: all 0.3s ease;
-  font-size: 1.05rem;
-  height: auto;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: 0.3s ease;
+  margin-bottom: 1.25rem;
 }
 
 .form-control:focus {
-  border-color: var(--portal-blue);
-  box-shadow: 0 0 0 4px rgba(0, 192, 255, 0.3);
-  background-color: rgba(10, 25, 50, 0.95);
+  border-color: #00c0ff;
+  box-shadow: 0 0 0 4px rgba(0, 192, 255, 0.2);
   outline: none;
 }
 
-/* ============== BOTÓN ============== */
+/* BOTÓN */
 .btn-primary {
-  background: linear-gradient(135deg, var(--portal-purple), var(--portal-blue));
+  background: linear-gradient(135deg, #9b59b6, #00c0ff);
   color: white;
   font-weight: bold;
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  border: none;
-  width: 100%;
-  transition: all 0.3s ease;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
-  margin-top: 1rem;
-}
-
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(155, 89, 182, 0.6);
-}
-
-/* ============== MENSAJES ============== */
-.alert {
-  background-color: rgba(255, 56, 96, 0.25);
-  color: var(--error-red);
   padding: 1rem;
-  border-radius: var(--radius-sm);
-  margin: 1.5rem 0;
-  border: 1px solid var(--error-red);
-  text-align: center;
-  font-size: 1rem;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s ease;
+  margin-top: 1rem;
+  cursor: pointer;
 }
 
-/* ============== TEXTO ============== */
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 192, 255, 0.5);
+}
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* MENSAJES */
+.alert {
+  background: rgba(255, 56, 96, 0.2);
+  color: #ff3860;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  text-align: center;
+  border: 1px solid #ff3860;
+}
+
+/* TEXTO DE ENLACE */
 .text-center {
   text-align: center;
-  color: rgba(255, 255, 255, 0.85);
-  margin: 2rem 0;
-  font-size: 1rem;
+  margin-top: 2rem;
+  color: #ccc;
 }
 
 .text-center a {
-  color: var(--portal-purple);
+  color: #9b59b6;
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.text-center a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--portal-blue);
-  transition: width 0.3s ease;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .text-center a:hover {
-  color: var(--portal-blue);
+  color: #00c0ff;
 }
 
-.text-center a:hover::after {
-  width: 100%;
-}
-
-/* ============== ANIMACIONES ============== */
+/* ANIMACIÓN */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px rgba(155, 89, 182, 0.7);
-  }
-  to {
-    text-shadow: 0 0 15px rgba(155, 89, 182, 0.9), 
-                 0 0 25px rgba(0, 192, 255, 0.6);
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .card {
+    padding: 2rem;
   }
 }
