@@ -3,23 +3,28 @@
     <a class="navbar-brand" routerLink="/">
       <i class="fas fa-portal me-2"></i> Rick & Morty App
     </a>
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" routerLink="/" routerLinkActive="active">Personajes</a>
-        
-        <ng-container *ngIf="authService.currentUserValue; else notLoggedIn">
+        <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Personajes</a>
+
+        <!-- Usamos el async pipe con currentUser$ para mayor reactividad -->
+        <ng-container *ngIf="currentUser$ | async as user; else notLoggedIn">
           <a class="nav-link" routerLink="/favorites" routerLinkActive="active">Favoritos</a>
-          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Perfil</a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">
+            <!-- Muestra username o email si username no está disponible -->
+            Perfil ({{ user.username || user.email }})
+          </a>
+          <!-- Tu botón de cerrar sesión -->
           <a class="nav-link" (click)="logout()" style="cursor: pointer;">
-            
+            <i class="fas fa-sign-out-alt me-1"></i> Cerrar sesión
           </a>
         </ng-container>
-        
+
         <ng-template #notLoggedIn>
           <a class="nav-link" routerLink="/login" routerLinkActive="active">
             <i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión
