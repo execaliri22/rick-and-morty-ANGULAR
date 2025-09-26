@@ -1,55 +1,63 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../auth.service'; // Asegúrate de la ruta correcta a tu auth.service.ts
-import { CommonModule } from '@angular/common'; // Necesario para *ngIf
+import { AuthService } from '../auth.service'; // Servicio personalizado de autenticación
+import { CommonModule } from '@angular/common'; // Necesario para directivas estructurales como *ngIf
 
 @Component({
   selector: 'app-register',
-  standalone: true,
+  standalone: true, // Componente independiente, no depende de un módulo
   imports: [
-    CommonModule, // Necesario para directivas como *ngIf
-    ReactiveFormsModule, // Necesario para formularios reactivos (formGroup, formControlName)
-    RouterModule // Necesario para routerLink
+    CommonModule, // Permite usar directivas comunes como *ngIf en la plantilla
+    ReactiveFormsModule, // Habilita el uso de formularios reactivos (formGroup, formControlName)
+    RouterModule // Permite la navegación con routerLink
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  // Formulario de registro
   registerForm: FormGroup;
-  errorMessage: string | null = null; // Usamos null para que *ngIf funcione correctamente
+
+  // Mensaje de error a mostrar si ocurre un fallo en el registro
+  errorMessage: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private fb: FormBuilder, // Para construir el formulario reactivo
+    private authService: AuthService, // Servicio de autenticación con Firebase
+    private router: Router // Para redirigir al usuario
   ) {
+    // Inicialización del formulario con validaciones
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]], // Campo username
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]] // Firebase Auth requiere mínimo 6 caracteres
+      username: ['', [Validators.required, Validators.minLength(3)]], // Campo obligatorio, mínimo 3 caracteres
+      email: ['', [Validators.required, Validators.email]], // Campo obligatorio con formato email válido
+      password: ['', [Validators.required, Validators.minLength(6)]] // Firebase Auth requiere al menos 6 caracteres
     });
   }
 
+  // Método que se ejecuta al enviar el formulario
   async onSubmit() {
-    this.errorMessage = null; // Limpiar cualquier mensaje de error anterior
+    this.errorMessage = null; // Limpiar errores previos
 
+    // Validar que todos los campos estén completos y correctos
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor completa todos los campos correctamente.';
-      return;
+      return; // No continúa si el formulario es inválido
     }
 
-    const { username, email, password } = this.registerForm.value; // Obtenemos el username, email y password
+    // Extraemos los valores del formulario
+    const { username, email, password } = this.registerForm.value;
 
     try {
-      // Llamamos al servicio de autenticación con email, password y username
+      // Llamada al servicio de autenticación para registrar el usuario
       const registered = await this.authService.register(email, password, username);
 
       if (registered) {
-        this.router.navigate(['/login']); // Redirigir al login o a la página principal tras un registro exitoso
+        // Si el registro fue exitoso, redirigir al login (o a la página principal si se desea)
+        this.router.navigate(['/login']);
       }
     } catch (error: any) {
-      // Capturamos y mostramos los errores específicos de Firebase Authentication
+      // Manejo de errores específicos de Firebase Authentication
       switch (error.code) {
         case 'auth/email-already-in-use':
           this.errorMessage = 'El email ya está registrado. Intenta iniciar sesión.';
@@ -62,12 +70,12 @@ export class RegisterComponent {
           break;
         default:
           this.errorMessage = 'Error al registrar usuario: ' + error.message;
-          console.error('Error de Firebase en registro:', error);
+          console.error('Error de Firebase en registro:', error); // Log para depuración
       }
     }
   }
 
-  // Métodos helpers para acceder a los controles del formulario (útiles para validación en la plantilla)
+  // Getters para acceder fácilmente a los controles del formulario en la plantilla
   get username() { return this.registerForm.get('username'); }
   get email() { return this.registerForm.get('email'); }
   get password() { return this.registerForm.get('password'); }

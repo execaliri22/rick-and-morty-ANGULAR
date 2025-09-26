@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FavoritesService } from '../../services/favorites.service';
 import { Character } from '../../models/character.model';
 
-@Component({
+@Component({ //define un componente 
   selector: 'app-character-table',
   standalone: true,
   imports: [CommonModule, FormsModule],
@@ -18,26 +18,26 @@ export class CharacterTableComponent implements OnInit {
   private readonly API_SEARCH_URL = 'https://rickandmortyapi.com/api/character/?name=';
 
   // Estado del componente
-  characters: Character[] = [];
-  filteredCharacters: Character[] | null = null; // Cambiado a null inicial
-  sortDirection: 'asc' | 'desc' = 'asc';
-  showNotesInputId: number | null = null;
-  notesText: string = '';
-  searchTerm: string = '';
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
+  characters: Character[] = [];               // Todos los personajes
+  filteredCharacters: Character[] | null = null; // Personajes filtrados (por búsqueda o favoritos)
+  sortDirection: 'asc' | 'desc' = 'asc';      // Dirección de ordenamiento
+  showNotesInputId: number | null = null;     // ID del personaje al que se le editan notas
+  notesText: string = '';                     // Texto de notas
+  searchTerm: string = '';                    // Texto del buscador
+  isLoading: boolean = false;                 // Estado de carga
+  errorMessage: string | null = null;         // Errores de API
 
   constructor(
     private http: HttpClient,
     private favoritesService: FavoritesService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef // Forzar detección de cambios cuando actualizamos datos manualmente
   ) {}
 
   ngOnInit(): void {
-    this.loadCharacters();
+    this.loadCharacters(); // Al iniciar, cargamos los personajes de la API
   }
 
-  // Carga inicial de personajes
+  // --- API: carga inicial de personajes
   loadCharacters(): void {
     this.isLoading = true;
     this.errorMessage = null;
@@ -45,11 +45,12 @@ export class CharacterTableComponent implements OnInit {
     
     this.http.get<{results: Character[]}>(this.API_URL).subscribe({
       next: (response) => {
+        // Enriquecemos cada personaje (favorito, notas, etc.)
         this.characters = response.results.map(char => ({
           ...this.enrichCharacterData(char),
-          imageLoaded: false
+          imageLoaded: false // Para manejar animación/estado de imágenes
         }));
-        this.filteredCharacters = [...this.characters];
+        this.filteredCharacters = [...this.characters]; // Copiamos para trabajar filtrados
         this.isLoading = false;
         this.cdRef.detectChanges();
       },
@@ -63,7 +64,7 @@ export class CharacterTableComponent implements OnInit {
     });
   }
 
-  // Búsqueda de personajes
+  // --- API: búsqueda de personajes
   searchCharacters(searchTerm: string): void {
     const term = searchTerm.trim();
     
@@ -90,7 +91,7 @@ export class CharacterTableComponent implements OnInit {
     });
   }
 
-  // Enriquecer datos del personaje
+  // Enriquecer datos con favoritos y notas
   private enrichCharacterData(character: Character): Character {
     return {
       ...character,
@@ -100,7 +101,7 @@ export class CharacterTableComponent implements OnInit {
     };
   }
 
-  // Manejo de imágenes
+  // --- Manejo de imágenes
   handleImageLoad(character: Character): void {
     character.imageLoaded = true;
     this.cdRef.detectChanges();
@@ -108,19 +109,19 @@ export class CharacterTableComponent implements OnInit {
 
   handleImageError(event: Event, character: Character): void {
     const imgElement = event.target as HTMLImageElement;
-    imgElement.src = 'assets/default-character.png';
+    imgElement.src = 'assets/default-character.png'; // Imagen fallback
     character.imageLoaded = true;
     this.cdRef.detectChanges();
   }
 
-  // Métodos para favoritos
+  // --- Manejo de favoritos
   toggleFavorite(character: Character): void {
     if (this.favoritesService.isFavorite(character.id)) {
       this.favoritesService.removeFavorite(character.id);
     } else {
       this.favoritesService.addFavorite(character, this.notesText);
     }
-    this.updateCharacterInList(character.id);
+    this.updateCharacterInList(character.id); // Refrescamos la UI
   }
 
   private updateCharacterInList(id: number): void {
@@ -133,7 +134,7 @@ export class CharacterTableComponent implements OnInit {
     }
   }
 
-  // Manejo de notas
+  // --- Manejo de notas
   getFavoriteNotes(id: number): string {
     const favorite = this.favoritesService.getFavorite(id);
     return favorite?.notes || '';
@@ -157,7 +158,7 @@ export class CharacterTableComponent implements OnInit {
     this.notesText = '';
   }
 
-  // Ordenación
+  // --- Ordenación de tabla
   sortTable(sortBy: keyof Character): void {
     if (!this.filteredCharacters) return;
     
@@ -172,7 +173,7 @@ export class CharacterTableComponent implements OnInit {
     });
   }
 
-  // Carga de ubicación
+  // --- Cargar información extra de ubicación
   loadLocation(character: Character): void {
     if (!character.locationName || character.locationName === 'Desconocido') {
       this.http.get<Character>(`${this.API_URL}/${character.id}`).subscribe({
